@@ -7,8 +7,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.example.meliapp.presentation.ui.screen.ProductDetailScreen
 import com.example.meliapp.presentation.ui.screen.SearchScreen
+import com.example.meliapp.presentation.viewmodel.ProductDetailViewModel
 
 @Composable
 fun MeliAppNavHost(
@@ -25,8 +27,12 @@ fun MeliAppNavHost(
         composable(
             route = Screen.ProductDetail.route,
             arguments = listOf(navArgument("itemId") { type = NavType.StringType })
-        ) {
-            ProductDetailScreen()
+        ) { backStackEntry ->
+            val viewModel: ProductDetailViewModel = hiltViewModel(backStackEntry)
+            ProductDetailScreen(
+                viewModel = viewModel,
+                onBackClick = { navController.popBackStack() }
+            )
         }
     }
 }

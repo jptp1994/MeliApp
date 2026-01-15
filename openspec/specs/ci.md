@@ -1,9 +1,9 @@
 # CI
 
 ## GitHub Actions
-Pipeline mínimo:
+Minimum pipeline:
 - Build
 - Unit tests
 - Lint
 
-Debe ejecutarse en cada PR.
+Must run on each PR.

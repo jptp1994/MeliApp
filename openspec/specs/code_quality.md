@@ -8,17 +8,17 @@
     - Or remove it if unnecessary
 
 
-### ✔️ ADEMÁS
-Agrega un task (ver punto tasks más abajo).
+### ✔️ ALSO
+Add a task (see tasks point below).
 
 ---
 
-## 2️⃣ Errores y warnings de Sonar / Lint = 0
+## 2️⃣ Sonar / Lint errors and warnings = 0
 
-### 📍 DÓNDE VA
-👉 **Spec de calidad + Task**
+### 📍 WHERE TO GO
+👉 **Quality spec + Task**
 
-📄 `specs/code-quality.md` (mismo archivo anterior)
+📄 `specs/code-quality.md` (same file above)
 
 ```md
 ## Static Analysis

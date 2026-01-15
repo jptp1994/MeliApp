@@ -1,5 +1,7 @@
 package com.example.meliapp.di
 
+import com.example.meliapp.data.datasource.ProductLocalDataSource
+import com.example.meliapp.data.datasource.ProductLocalDataSourceImpl
 import com.example.meliapp.data.datasource.ProductRemoteDataSource
 import com.example.meliapp.data.datasource.ProductRemoteDataSourceImpl
 import com.example.meliapp.data.repository.ProductRepository
@@ -25,4 +27,10 @@ abstract class RepositoryModule {
     abstract fun bindProductRemoteDataSource(
         productRemoteDataSourceImpl: ProductRemoteDataSourceImpl
     ): ProductRemoteDataSource
+
+    @Binds
+    @Singleton
+    abstract fun bindProductLocalDataSource(
+        productLocalDataSourceImpl: ProductLocalDataSourceImpl
+    ): ProductLocalDataSource
 }

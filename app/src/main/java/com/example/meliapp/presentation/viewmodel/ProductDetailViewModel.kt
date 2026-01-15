@@ -3,9 +3,9 @@ package com.example.meliapp.presentation.viewmodel
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.meliapp.data.exception.NetworkException
 import com.example.meliapp.domain.usecase.GetProductDetailUseCase
 import com.example.meliapp.presentation.ui.common.UiState
+import com.example.meliapp.utils.Constants.tag
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -28,15 +28,20 @@ class ProductDetailViewModel @Inject constructor(
         loadProductDetail()
     }
 
+    /**
+     * input: None (uses itemId from SavedStateHandle)
+     * output: Unit
+     * utility: Loads the details for the product ID provided in the navigation arguments, updating the UI state accordingly.
+     */
     private fun loadProductDetail() {
         viewModelScope.launch {
             try {
                 val productDetail = getProductDetailUseCase(itemId)
+                android.util.Log.d(tag, "Detail success for $itemId")
                 _uiState.value = UiState.Success(productDetail)
-            } catch (e: NetworkException) {
-                _uiState.value = UiState.Error(e.message ?: "Unknown error")
             } catch (e: Exception) {
-                _uiState.value = UiState.Error("Unexpected error")
+                android.util.Log.e(tag, "Detail unexpected error: ${e.message}")
+                _uiState.value = UiState.Error(e.message ?: "Unexpected error")
             }
         }
     }

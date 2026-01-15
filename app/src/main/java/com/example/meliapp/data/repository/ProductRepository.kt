@@ -12,7 +12,7 @@ interface ProductRepository {
      * @param offset Offset for pagination.
      * @return List of products.
      */
-    suspend fun searchProducts(query: String, limit: Int, offset: Int): List<ItemDto>
+    suspend fun searchProducts(query: String, limit: Int, offset: Int): SearchItemsResult
 
     /**
      * Get detailed information for a specific product.

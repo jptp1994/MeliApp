@@ -15,9 +15,18 @@ class ProductMapperTest {
             title = "Test Product",
             price = 100.0,
             currencyID = "ARS",
-            thumbnail = "url",
+            images = listOf("url"),
             condition = "new",
-            availableQuantity = 10
+            availableQuantity = 10,
+            brand = "Test Brand",
+            status = "active",
+            category = "cat1",
+            quality = "good",
+            priority = "high",
+            createdAt = "2023-01-01",
+            lastUpdated = "2023-01-02",
+            keywords = "test",
+            hasVariations = false
         )
 
         // When
@@ -29,9 +38,18 @@ class ProductMapperTest {
             title = "Test Product",
             price = 100.0,
             currency = "ARS",
-            thumbnail = "url",
+            images = listOf("url"),
             condition = "new",
-            availableQuantity = 10
+            availableQuantity = 10,
+            brand = "Test Brand",
+            status = "active",
+            category = "cat1",
+            quality = "good",
+            priority = "high",
+            createdAt = "2023-01-01",
+            lastUpdated = "2023-01-02",
+            keywords = "test",
+            hasVariations = false
         )
         assertEquals(expected, product)
     }
@@ -40,8 +58,8 @@ class ProductMapperTest {
     fun `list of ItemDto toDomain maps correctly`() {
         // Given
         val itemDtos = listOf(
-            ItemDto("1", "P1", 100.0, "ARS", "u1", "new", 10),
-            ItemDto("2", "P2", 200.0, "ARS", "u2", "used", 5)
+            ItemDto("1", "P1", 100.0, "ARS", listOf("u1"), "new", 10, "B1", "S1", "C1", "Q1", "PR1", "D1", "D2", "K1", false),
+            ItemDto("2", "P2", 200.0, "ARS", listOf("u2"), "used", 5, "B2", "S2", "C2", "Q2", "PR2", "D3", "D4", "K2", true)
         )
 
         // When
@@ -49,8 +67,8 @@ class ProductMapperTest {
 
         // Then
         val expected = listOf(
-            Product("1", "P1", 100.0, "ARS", "u1", "new", 10),
-            Product("2", "P2", 200.0, "ARS", "u2", "used", 5)
+            Product("1", "P1", 100.0, "ARS", listOf("u1"), "new", 10, "B1", "S1", "C1", "Q1", "PR1", "D1", "D2", "K1", false),
+            Product("2", "P2", 200.0, "ARS", listOf("u2"), "used", 5, "B2", "S2", "C2", "Q2", "PR2", "D3", "D4", "K2", true)
         )
         assertEquals(expected, products)
     }

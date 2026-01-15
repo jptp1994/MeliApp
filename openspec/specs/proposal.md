@@ -1,33 +1,32 @@
 # Mercado Libre Android Search App
 
-## Objetivo
-Desarrollar una app Android nativa moderna, limpia y defendible en una
-entrevista técnica senior.
+## Objective
+Develop a modern, clean, and defensible native Android app in a senior technical interview.
 
-La app consumirá las APIs públicas de Mercado Libre para:
-1. Buscar productos por texto
-2. Mostrar un listado de resultados
-3. Mostrar el detalle de un producto
+The app will consume Mercado Libre's public APIs to:
+1. Search products by text
+2. Display a list of results
+3. Display product details
 
-El foco está en:
-- Arquitectura limpia
-- Calidad de código
-- UX clara
-- Testing unitario
+The focus is on:
+- Clean architecture
+- Code quality
+- Clear UX
+- Unit testing
 
-No se requiere:
-- Autenticación
-- Compra
-- Features avanzadas de marketplace
+Not required:
+- Authentication
+- Purchase
+- Advanced marketplace features
 
-## Público objetivo
-Entrevistadores técnicos senior / leads evaluando:
-- Arquitectura
-- Decisiones técnicas
-- Buenas prácticas Android
+## Target Audience
+Senior technical interviewers / leads evaluating:
+- Architecture
+- Technical decisions
+- Android best practices
 
-## Restricciones clave
-- NO sobre-ingenierizar
-- NO mezclar capas
-- NO exponer DTOs a la UI
-- Priorizar claridad y mantenibilidad
+## Key Constraints
+- NO over-engineering
+- NO mixing layers
+- NO exposing DTOs to the UI
+- Prioritize clarity and maintainability

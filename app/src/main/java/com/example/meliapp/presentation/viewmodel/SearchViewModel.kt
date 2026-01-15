@@ -2,9 +2,11 @@ package com.example.meliapp.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.meliapp.data.exception.NetworkException
+import com.example.meliapp.domain.model.ProductSearchResult
+import com.example.meliapp.domain.model.SearchSource
 import com.example.meliapp.domain.usecase.SearchProductsUseCase
 import com.example.meliapp.presentation.ui.common.UiState
+import com.example.meliapp.utils.Constants.tag
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -18,9 +20,14 @@ class SearchViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _uiState =
-        MutableStateFlow<UiState<List<com.example.meliapp.domain.model.Product>>>(UiState.Empty)
-    val uiState: StateFlow<UiState<List<com.example.meliapp.domain.model.Product>>> = _uiState
+        MutableStateFlow<UiState<ProductSearchResult>>(UiState.Empty)
+    val uiState: StateFlow<UiState<ProductSearchResult>> = _uiState
 
+    /**
+     * input: query (String)
+     * output: Unit
+     * utility: Initiates the product search process, updating the UI state to Loading, then Success or Error based on the result.
+     */
     fun searchProducts(query: String) {
         if (query.isBlank()) {
             _uiState.value = UiState.Empty
@@ -30,12 +37,13 @@ class SearchViewModel @Inject constructor(
         _uiState.value = UiState.Loading
         viewModelScope.launch {
             try {
-                val products = searchProductsUseCase(query)
-                _uiState.value = if (products.isEmpty()) UiState.Empty else UiState.Success(products)
-            } catch (e: NetworkException) {
-                _uiState.value = UiState.Error(e.message ?: "Unknown error")
+                val result = searchProductsUseCase(query)
+                // android.util.Log.d(tag, "Search success: ${result.products.size} items found from ${result.source}")
+                _uiState.value =
+                    if (result.products.isEmpty()) UiState.Empty else UiState.Success(result)
             } catch (e: Exception) {
-                _uiState.value = UiState.Error("Unexpected error")
+                // android.util.Log.e(tag, "Search unexpected error: ${e.message}")
+                _uiState.value = UiState.Error(e.message ?: "Unexpected error")
             }
         }
     }

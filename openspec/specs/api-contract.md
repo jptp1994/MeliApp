@@ -1,35 +1,34 @@
 # API Contract – Mercado Libre
 
-## Documentación oficial
+## Official Documentation
 https://developers.mercadolibre.com.ar/es_ar/items-y-busquedas
 
 ---
 
-## Endpoints permitidos
+## Allowed Endpoints
 
-### 1. Search products
-GET https://api.mercadolibre.com/sites/{site_id}/search?q={query}
+### 1. Search products (Catalog API)
+GET https://api.mercadolibre.com/products/search?q={query}&status=active&site_id={site_id}
 
 #### Request
-- site_id: String (usar "MLA" por defecto)
 - q: String
-- limit: Int (default 20)
+- status: String (default "active")
+- site_id: String (use "MLA" by default)
+- limit: Int (default 10)
 - offset: Int (default 0)
 
-❌ NO usar:
-- filtros avanzados
+❌ DO NOT use:
+- advanced filters
 - sorting
-- categorías
+- categories
 - seller filters
 
-#### Response (usar SOLO)
+#### Response (use ONLY)
 - id
-- title
-- price
-- currency_id
-- thumbnail
-- condition
-- available_quantity
+- name (mapped to title)
+- pictures[].url (first one as thumbnail)
+
+Note: Catalog API does not provide price, currency, condition, or available_quantity. These are set to default/empty values in the app.
 
 ---
 
@@ -39,9 +38,9 @@ GET https://api.mercadolibre.com/items/{item_id}
 #### Request
 - item_id: String
 
-❌ NO usar parámetros adicionales
+❌ DO NOT use additional parameters
 
-#### Response (usar SOLO)
+#### Response (use ONLY)
 - id
 - title
 - price
@@ -56,7 +55,7 @@ GET https://api.mercadolibre.com/items/{item_id}
 
 ---
 
-## Reglas estrictas
-- NO mapear toda la API
-- DTOs solo con campos definidos arriba
-- Dominio desacoplado de la API
+## Strict Rules
+- DO NOT map the entire API
+- DTOs only with fields defined above
+- Domain decoupled from the API

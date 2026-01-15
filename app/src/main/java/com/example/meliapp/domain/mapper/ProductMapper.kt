@@ -9,9 +9,18 @@ fun ItemDto.toDomain(): Product {
         title = title,
         price = price,
         currency = currencyID,
-        thumbnail = thumbnail,
+        images = images,
         condition = condition,
-        availableQuantity = availableQuantity
+        availableQuantity = availableQuantity,
+        brand = brand,
+        status = status,
+        category = category,
+        quality = quality,
+        priority = priority,
+        createdAt = createdAt,
+        lastUpdated = lastUpdated,
+        keywords = keywords,
+        hasVariations = hasVariations
     )
 }
 

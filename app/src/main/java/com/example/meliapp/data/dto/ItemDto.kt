@@ -11,7 +11,16 @@ data class ItemDto(
     val title: String,
     val price: Double,
     val currencyID: String,
-    val thumbnail: String,
+    val images: List<String>,
     val condition: String,
-    val availableQuantity: Int
+    val availableQuantity: Int,
+    val brand: String,
+    val status: String,
+    val category: String,
+    val quality: String,
+    val priority: String,
+    val createdAt: String,
+    val lastUpdated: String,
+    val keywords: String,
+    val hasVariations: Boolean
 )

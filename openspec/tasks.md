@@ -1,50 +1,51 @@
 # Tasks
 
 ## Task 1 – Project setup
-- Crear proyecto Android
-- Gradle Kotlin DSL
-- Version Catalog
-- Estructura Clean Architecture
-- [ ] Verify all dependencies use latest stable versions
-- [ ] Add Chucker interceptor for debug builds only
+- [x] Create Android project
+- [x] Gradle Kotlin DSL
+- [x] Version Catalog
+- [x] Clean Architecture structure
+- [x] Verify all dependencies use latest stable versions
+- [x] Add Chucker interceptor for debug builds only
+
 ## Task 2 – Networking
-- Retrofit interfaces
-- OkHttp
-- DTOs según api-contract
-- Manejo centralizado de errores
+- [x] Retrofit interfaces
+- [x] OkHttp
+- [x] DTOs according to api-contract
+- [x] Centralized error handling
 
 ## Task 3 – Domain
-- Domain models
-- UseCases
-- Mappers DTO → Domain
+- [x] Domain models
+- [x] UseCases
+- [x] Mappers DTO → Domain
 
 ## Task 4 – Presentation
-- ViewModels
-- UiState
-- Screens Compose
-- Navigation Compose
+- [x] ViewModels
+- [x] UiState
+- [x] Screens Compose
+- [x] Navigation Compose
 
 ## Task 5 – Testing
-- Unit tests de UseCases
-- Unit tests de ViewModels
+- [x] Unit tests for UseCases
+- [x] Unit tests for ViewModels
 
 ## Task 6 – CI & Docs
-- GitHub Actions
-- README profesional
-- 
-## Task X – Code Quality
-- [ ] Fix all Android Lint warnings and errors
-- [ ] Resolve SonarLint issues
-- [ ] Move all hardcoded UI strings to strings.xml
-- [ ] Replace all deprecated APIs
-- [ ] Improve unit test coverage across all layers
-- [ ] Add Compose UI tests for main flows
-- [ ] Extract all hardcoded dimensions into a centralized design system
+- [ ] GitHub Actions
+- [x] Professional README
 
-## Task – Dependency Injection & Testing Improvements
+## Task 7 – Code Quality
+- [x] Fix all Android Lint warnings and errors
+- [ ] Resolve SonarLint issues (e.g., remove unused Room files causing compilation errors)
+- [x] Move all hardcoded UI strings to strings.xml
+- [x] Replace all deprecated APIs
+- [x] Improve unit test coverage across all layers
+- [x] Add Compose UI tests for main flows
+- [x] Extract all hardcoded dimensions into a centralized design system
 
-- [ ] Refactor repositories to depend on abstractions only
-- [ ] Introduce fake implementations for repositories and data sources
-- [ ] Refactor ViewModel tests to use fakes instead of mocks
-- [ ] Reduce Hilt usage in unit tests
-- [ ] Keep Hilt limited to production and instrumentation
+## Task 8– Dependency Injection & Testing Improvements
+- [x] Refactor repositories to depend on abstractions only
+- [x] Introduce fake implementations for repositories and data sources
+- [x] Refactor ViewModel tests to use fakes instead of mocks
+- [x] Reduce Hilt usage in unit tests
+- [x] Keep Hilt limited to production and instrumentation
+

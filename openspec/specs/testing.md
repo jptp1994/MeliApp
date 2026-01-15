@@ -1,6 +1,6 @@
 # Testing
 
-## Unit Tests (obligatorios)
+## Unit Tests (mandatory)
 - UseCases
 - ViewModels
 - Mappers
@@ -11,8 +11,8 @@
 - Turbine
 - Coroutine Test
 
-❌ NO implementar tests End-to-End
-UI tests solo si es trivial
+❌ DO NOT implement End-to-End tests
+UI tests only if trivial
 
 ## Testing Requirements
 

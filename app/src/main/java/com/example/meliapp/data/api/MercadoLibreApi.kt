@@ -7,21 +7,30 @@
 package com.example.meliapp.data.api
 
 import com.example.meliapp.data.dto.ItemDetailDto
-import com.example.meliapp.data.dto.SearchResponseDto
+import com.example.meliapp.data.dto.ProductsSearchResponseDto
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface MercadoLibreApi {
 
-    @GET("sites/{siteId}/search")
+    /**
+     * input: query (String), limit (Int), offset (Int)
+     * output: ProductsSearchResponseDto
+     * utility: Makes a GET request to the Mercado Libre API to search for products.
+     */
+    @GET("sites/MLA/search")
     suspend fun searchProducts(
-        @Path("siteId") siteId: String = "MLA",
         @Query("q") query: String,
-        @Query("limit") limit: Int = 20,
-        @Query("offset") offset: Int = 0
-    ): SearchResponseDto
+        @Query("limit") limit: Int,
+        @Query("offset") offset: Int
+    ): ProductsSearchResponseDto
 
+    /**
+     * input: itemId (String)
+     * output: ItemDetailDto
+     * utility: Makes a GET request to the Mercado Libre API to retrieve item details.
+     */
     @GET("items/{itemId}")
     suspend fun getItemDetail(
         @Path("itemId") itemId: String

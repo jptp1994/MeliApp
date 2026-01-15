@@ -7,7 +7,7 @@
 - WindowSizeClass
 - Compose Preview
 
-## Pantallas
+## Screens
 1. Search screen
 2. Results list screen
 3. Product detail screen
@@ -24,11 +24,11 @@
 - All user-visible text MUST come from:
     - string resources
     - stringResource(id = ...)
-    - 
-## Reglas
-- No lógica de negocio en Composables
-- ViewModels livianos
+    -
 
+## Rules
+- No business logic in Composables
+- Lightweight ViewModels
 ## Dimensions
 
 - No hardcoded dp values in Composables.

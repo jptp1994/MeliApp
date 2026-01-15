@@ -1,35 +1,35 @@
-# Arquitectura
+# Architecture
 
-## Stack obligatorio
+## Mandatory Stack
 - Kotlin
 - Android SDK 34+
 - Gradle Kotlin DSL
 - Version Catalog
 
-## Arquitectura
+## Architecture
 - Clean Architecture
 - MVVM
 
-### Capas
+### Layers
 - presentation (Compose + ViewModels)
 - domain (UseCases + Domain Models)
 - data (Repositories + API + DTOs)
 
-### Reglas
-- UI no conoce DTOs
-- Dominio no conoce Retrofit
-- Repositorios ocultan detalles de red
+### Rules
+- UI does not know DTOs
+- Domain does not know Retrofit
+- Repositories hide network details
 
 ## State Management
 - StateFlow
-- UiState sellado:
+- Sealed UiState:
     - Loading
     - Success
     - Error
     - Empty
 
 - collectAsStateWithLifecycle
-- Estado sobrevive a rotación
+- State survives rotation
 
 ## Debug Networking
 - Chucker MUST be included:

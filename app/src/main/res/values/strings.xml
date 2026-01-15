@@ -3,4 +3,20 @@
     <string name="search_products_hint">Buscar productos</string>
     <string name="no_products_message">No hay productos para mostrar</string>
     <string name="condition_label">Condición:</string>
-</resources>
+    <string name="app_title">Mercado Libre</string>
+    <string name="empty_search_message">Empieza a buscar tus productos favoritos</string>
+    <string name="generic_error_title">¡Ups! Algo salió mal</string>
+    <string name="generic_error_button_back">Atrás</string>
+    <string name="product_not_found">Producto no encontrado</string>
+    <string name="product_buy_now">Comprar ahora</string>
+    <string name="product_condition_new">Nuevo</string>
+    <string name="product_condition_used">Usado</string>
+     <string name="product_warranty_title">Garantía</string>
+     <string name="product_main_features">Características principales</string>
+     <string name="label_category">Categoría</string>
+     <string name="label_quality">Calidad</string>
+     <string name="label_priority">Prioridad</string>
+     <string name="label_created">Creado</string>
+     <string name="label_updated">Actualizado</string>
+     <string name="last_search_from_cache">Tu última búsqueda con resultados fue esta:</string>
+ </resources>
