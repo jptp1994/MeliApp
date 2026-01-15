@@ -19,8 +19,10 @@ interface MercadoLibreApi {
      * output: ProductsSearchResponseDto
      * utility: Makes a GET request to the Mercado Libre API to search for products.
      */
-    @GET("sites/MLA/search")
+    @GET("products/search")
     suspend fun searchProducts(
+        @Query("status") status: String = "active",
+        @Query("site_id") siteId: String = "MLA",
         @Query("q") query: String,
         @Query("limit") limit: Int,
         @Query("offset") offset: Int

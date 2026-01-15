@@ -43,10 +43,25 @@ app/src/main/java/com/example/meliapp/
 ```
 
 ## API Integration
-
-This app integrates with Mercado Libre's public API:
-- Search endpoint: `GET /sites/MLA/search?q={query}`
-- Item details: `GET /items/{item_id}`
+#
+#This app integrates with Mercado Libre's public API:
+#
+## Product search
+#
+##- Endpoint: `GET https://api.mercadolibre.com/products/search`
+##- Query params:
+##  - `status`: `active` (default)
+##  - `site_id`: `MLA` (Argentina, default)
+##  - `q`: Search text (user query)
+##  - `limit`: Page size (number of items per page)
+##  - `offset`: Pagination offset
+#
+## Example:
+## `GET https://api.mercadolibre.com/products/search?status=active&site_id=MLA&q=dados&limit=20&offset=0`
+#
+## Item details
+#
+##- Endpoint: `GET https://api.mercadolibre.com/items/{item_id}`
 
 ## Building and Running
 

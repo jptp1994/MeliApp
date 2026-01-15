@@ -14,7 +14,7 @@ GET https://api.mercadolibre.com/products/search?q={query}&status=active&site_id
 - q: String
 - status: String (default "active")
 - site_id: String (use "MLA" by default)
-- limit: Int (default 10)
+- limit: Int (default 20)
 - offset: Int (default 0)
 
 ❌ DO NOT use:
