@@ -14,6 +14,8 @@ class GetProductDetailUseCase @Inject constructor(
      * utility: Executes the business logic for retrieving product details, mapping repository results to domain models.
      */
     suspend operator fun invoke(itemId: String): ProductDetail {
-        return repository.getItemDetail(itemId).toDomain()
+        val detailDto = repository.getItemDetail(itemId)
+        val isFavorite = repository.isFavorite(itemId)
+        return detailDto.toDomain(isFavorite)
     }
 }

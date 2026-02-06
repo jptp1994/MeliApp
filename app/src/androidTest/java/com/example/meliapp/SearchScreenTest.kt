@@ -23,10 +23,12 @@ class SearchScreenTest {
 
     private val viewModel: SearchViewModel = mockk(relaxed = true)
     private val uiStateFlow = MutableStateFlow<UiState<ProductSearchResult>>(UiState.Empty)
+    private val isFavoriteFilterActiveFlow = MutableStateFlow(false)
 
     @Test
     fun searchScreen_displaysSearchField_and_EmptyState() {
         every { viewModel.uiState } returns uiStateFlow
+        every { viewModel.isFavoriteFilterActive } returns isFavoriteFilterActiveFlow
 
         composeTestRule.setContent {
             SearchScreen(onProductClick = {}, viewModel = viewModel)
@@ -40,6 +42,7 @@ class SearchScreenTest {
     fun searchScreen_displaysLoading() {
         uiStateFlow.value = UiState.Loading
         every { viewModel.uiState } returns uiStateFlow
+        every { viewModel.isFavoriteFilterActive } returns isFavoriteFilterActiveFlow
 
         composeTestRule.setContent {
             SearchScreen(onProductClick = {}, viewModel = viewModel)
@@ -55,6 +58,7 @@ class SearchScreenTest {
         val errorMessage = "Error de conexión"
         uiStateFlow.value = UiState.Error(errorMessage)
         every { viewModel.uiState } returns uiStateFlow
+        every { viewModel.isFavoriteFilterActive } returns isFavoriteFilterActiveFlow
 
         composeTestRule.setContent {
             SearchScreen(onProductClick = {}, viewModel = viewModel)
@@ -83,12 +87,14 @@ class SearchScreenTest {
                 createdAt = "2023-01-01",
                 lastUpdated = "2023-01-02",
                 keywords = "test",
-                hasVariations = false
+                hasVariations = false,
+                isFavorite = false
             )
         )
         val result = ProductSearchResult(products = products, source = SearchSource.REMOTE)
         uiStateFlow.value = UiState.Success(result)
         every { viewModel.uiState } returns uiStateFlow
+        every { viewModel.isFavoriteFilterActive } returns isFavoriteFilterActiveFlow
 
         composeTestRule.setContent {
             SearchScreen(onProductClick = {}, viewModel = viewModel)
@@ -96,6 +102,7 @@ class SearchScreenTest {
 
         composeTestRule.onNodeWithText("Producto de prueba").assertIsDisplayed()
         composeTestRule.onNodeWithText("Marca Test").assertIsDisplayed()
+        composeTestRule.onNodeWithContentDescription("Add to favorites").assertIsDisplayed()
     }
 
     @Test
@@ -103,6 +110,7 @@ class SearchScreenTest {
         val result = ProductSearchResult(products = emptyList(), source = SearchSource.REMOTE)
         uiStateFlow.value = UiState.Success(result)
         every { viewModel.uiState } returns uiStateFlow
+        every { viewModel.isFavoriteFilterActive } returns isFavoriteFilterActiveFlow
 
         composeTestRule.setContent {
             SearchScreen(onProductClick = {}, viewModel = viewModel)

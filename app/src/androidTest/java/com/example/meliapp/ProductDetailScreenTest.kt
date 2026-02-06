@@ -2,7 +2,6 @@ package com.example.meliapp
 
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
-import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import com.example.meliapp.domain.model.Attribute
 import com.example.meliapp.domain.model.ProductDetail
@@ -78,6 +77,35 @@ class ProductDetailScreenTest {
         
         // Check Button
         composeTestRule.onNodeWithText("Comprar ahora").assertIsDisplayed()
+
+        // Check Favorite Icon
+        composeTestRule.onNodeWithContentDescription("Add to favorites").assertIsDisplayed()
+    }
+
+    @Test
+    fun productDetailScreen_displaysFavoriteIcon_checked() {
+        val product = ProductDetail(
+            id = "1",
+            title = "Producto Favorito",
+            price = 1500.0,
+            currency = "ARS",
+            pictures = listOf("http://imagen.com/img.jpg"),
+            condition = "new",
+            availableQuantity = 5,
+            soldQuantity = 100,
+            warranty = "Garantía",
+            attributes = emptyList(),
+            isFavorite = true
+        )
+
+        uiStateFlow.value = UiState.Success(product)
+        every { viewModel.uiState } returns uiStateFlow
+
+        composeTestRule.setContent {
+            ProductDetailScreen(onBackClick = {}, viewModel = viewModel)
+        }
+
+        composeTestRule.onNodeWithContentDescription("Remove from favorites").assertIsDisplayed()
     }
 
     @Test

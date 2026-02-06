@@ -53,7 +53,6 @@ import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 
-@OptIn(FlowPreview::class, ExperimentalMaterial3Api::class)
 @Composable
 fun SearchScreen(
     onProductClick: (String) -> Unit,
@@ -136,7 +135,11 @@ fun SearchScreen(
                             modifier = Modifier.fillMaxSize()
                         ) {
                             items(products) { product ->
-                                ProductItem(product = product, onClick = { onProductClick(product.id) })
+                                ProductItem(
+                                    product = product,
+                                    onClick = { onProductClick(product.id) },
+                                    onFavoriteClick = { viewModel.toggleFavorite(product) }
+                                )
                             }
                         }
                     }
@@ -153,9 +156,8 @@ fun SearchScreen(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ProductItem(product: Product, onClick: () -> Unit) {
+fun ProductItem(product: Product, onClick: () -> Unit, onFavoriteClick: () -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -165,97 +167,109 @@ fun ProductItem(product: Product, onClick: () -> Unit) {
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
         shape = RoundedCornerShape(Dimens.dp_16)
     ) {
-        Column(modifier = Modifier.padding(Dimens.dp_16)) {
-            // Gallery (Carousel)
-            if (product.images.isNotEmpty()) {
-                androidx.compose.foundation.lazy.LazyRow(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(Dimens.dp_200),
-                    horizontalArrangement = androidx.compose.foundation.layout.Arrangement.spacedBy(Dimens.dp_8)
-                ) {
-                    items(product.images) { imageUrl ->
-                        AsyncImage(
-                            model = imageUrl.replace("http://", "https://"),
-                            contentDescription = null,
-                            modifier = Modifier
-                                .width(Dimens.dp_200)
-                                .clip(RoundedCornerShape(Dimens.dp_8)),
-                            contentScale = ContentScale.Fit
-                        )
+        Box {
+            Column(modifier = Modifier.padding(Dimens.dp_16)) {
+                // Gallery (Carousel)
+                if (product.images.isNotEmpty()) {
+                    androidx.compose.foundation.lazy.LazyRow(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(Dimens.dp_200),
+                        horizontalArrangement = androidx.compose.foundation.layout.Arrangement.spacedBy(Dimens.dp_8)
+                    ) {
+                        items(product.images) { imageUrl ->
+                            AsyncImage(
+                                model = imageUrl.replace("http://", "https://"),
+                                contentDescription = null,
+                                modifier = Modifier
+                                    .width(Dimens.dp_200)
+                                    .clip(RoundedCornerShape(Dimens.dp_8)),
+                                contentScale = ContentScale.Fit
+                            )
+                        }
                     }
-                }
-            } else {
-                 Box(modifier = Modifier.height(Dimens.dp_200).fillMaxWidth().background(MaterialTheme.colorScheme.secondaryContainer))
-            }
-
-            Spacer(modifier = Modifier.height(Dimens.dp_16))
-
-            // Title (H1)
-            Text(
-                text = product.title,
-                style = MaterialTheme.typography.headlineSmall,
-                color = MaterialTheme.colorScheme.onSurface,
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis
-            )
-
-            Spacer(modifier = Modifier.height(Dimens.dp_8))
-
-            // Badges
-            androidx.compose.foundation.layout.Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                if (product.brand.isNotEmpty()) {
-                    Badge(
-                        text = product.brand,
-                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                        contentColor = MaterialTheme.colorScheme.onSecondaryContainer
-                    )
-                    Spacer(modifier = Modifier.width(Dimens.dp_8))
+                } else {
+                    Box(modifier = Modifier.height(Dimens.dp_200).fillMaxWidth().background(MaterialTheme.colorScheme.secondaryContainer))
                 }
 
-                val statusColor = if (product.status == "active") androidx.compose.ui.graphics.Color(0xFF4CAF50) else MaterialTheme.colorScheme.error
-                Badge(
-                    text = product.status,
-                    containerColor = statusColor.copy(alpha = 0.1f),
-                    contentColor = statusColor
+                Spacer(modifier = Modifier.height(Dimens.dp_16))
+
+                // Title (H1)
+                Text(
+                    text = product.title,
+                    style = MaterialTheme.typography.headlineSmall,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis
                 )
-            }
+                
+                Spacer(modifier = Modifier.height(Dimens.dp_8))
 
-            Spacer(modifier = Modifier.height(Dimens.dp_16))
-
-            // Info Card
-            Card(
-                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)),
-                shape = RoundedCornerShape(Dimens.dp_8),
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Column(modifier = Modifier.padding(Dimens.dp_12)) {
-                    InfoRow(label = stringResource(R.string.label_category), value = product.category)
-                    InfoRow(label = stringResource(R.string.label_quality), value = product.quality)
-                    InfoRow(label = stringResource(R.string.label_priority), value = product.priority)
-                    InfoRow(label = stringResource(R.string.label_created), value = product.createdAt)
-                    InfoRow(label = stringResource(R.string.label_updated), value = product.lastUpdated)
-                }
-            }
-
-            Spacer(modifier = Modifier.height(Dimens.dp_16))
-
-            // Keywords Chips
-            if (product.keywords.isNotEmpty()) {
-                val keywordsList = product.keywords.split(",").map { it.trim() }
-                androidx.compose.foundation.lazy.LazyRow(
-                    horizontalArrangement = androidx.compose.foundation.layout.Arrangement.spacedBy(Dimens.dp_8)
+                // Badges
+                androidx.compose.foundation.layout.Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.fillMaxWidth()
                 ) {
-                    items(keywordsList) { keyword ->
-                        androidx.compose.material3.SuggestionChip(
-                            onClick = { },
-                            label = { Text(keyword) }
+                    if (product.brand.isNotEmpty()) {
+                        Badge(
+                            text = product.brand,
+                            containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                            contentColor = MaterialTheme.colorScheme.onSecondaryContainer
                         )
+                        Spacer(modifier = Modifier.width(Dimens.dp_8))
+                    }
+
+                    val statusColor = if (product.status == "active") androidx.compose.ui.graphics.Color(0xFF4CAF50) else MaterialTheme.colorScheme.error
+                    Badge(
+                        text = product.status,
+                        containerColor = statusColor.copy(alpha = 0.1f),
+                        contentColor = statusColor
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(Dimens.dp_16))
+
+                // Info Card
+                Card(
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)),
+                    shape = RoundedCornerShape(Dimens.dp_8),
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Column(modifier = Modifier.padding(Dimens.dp_12)) {
+                        InfoRow(label = stringResource(R.string.label_category), value = product.category)
+                        InfoRow(label = stringResource(R.string.label_quality), value = product.quality)
+                        InfoRow(label = stringResource(R.string.label_priority), value = product.priority)
+                        InfoRow(label = stringResource(R.string.label_created), value = product.createdAt)
+                        InfoRow(label = stringResource(R.string.label_updated), value = product.lastUpdated)
                     }
                 }
+
+                Spacer(modifier = Modifier.height(Dimens.dp_16))
+
+                // Keywords Chips
+                if (product.keywords.isNotEmpty()) {
+                    val keywordsList = product.keywords.split(",").map { it.trim() }
+                    androidx.compose.foundation.lazy.LazyRow(
+                        horizontalArrangement = androidx.compose.foundation.layout.Arrangement.spacedBy(Dimens.dp_8)
+                    ) {
+                        items(keywordsList) { keyword ->
+                            androidx.compose.material3.SuggestionChip(
+                                onClick = { },
+                                label = { Text(keyword) }
+                            )
+                        }
+                    }
+                }
+            }
+            IconButton(
+                onClick = onFavoriteClick,
+                modifier = Modifier.align(Alignment.TopEnd).padding(Dimens.dp_8)
+            ) {
+                Icon(
+                    imageVector = if (product.isFavorite) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
+                    contentDescription = if (product.isFavorite) "Remove from favorites" else "Add to favorites",
+                    tint = if (product.isFavorite) Color.Red else Color.Gray
+                )
             }
         }
     }
