@@ -20,11 +20,14 @@ import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 
+import com.example.meliapp.domain.usecase.ToggleFavoriteUseCase
+
 @OptIn(ExperimentalCoroutinesApi::class)
 class ProductDetailViewModelTest {
 
     private val fakeRepository = FakeProductRepository()
     private val getProductDetailUseCase = GetProductDetailUseCase(fakeRepository)
+    private val toggleFavoriteUseCase = ToggleFavoriteUseCase(fakeRepository)
 
     @Before
     fun setup() {
@@ -57,7 +60,7 @@ class ProductDetailViewModelTest {
             val savedStateHandle = SavedStateHandle(mapOf("itemId" to itemId))
             
             // When
-            val viewModel = ProductDetailViewModel(savedStateHandle, getProductDetailUseCase)
+            val viewModel = ProductDetailViewModel(savedStateHandle, getProductDetailUseCase, toggleFavoriteUseCase)
             
             // Execute pending coroutines
             advanceUntilIdle()
@@ -84,7 +87,7 @@ class ProductDetailViewModelTest {
             val savedStateHandle = SavedStateHandle(mapOf("itemId" to itemId))
             
             // When
-            val viewModel = ProductDetailViewModel(savedStateHandle, getProductDetailUseCase)
+            val viewModel = ProductDetailViewModel(savedStateHandle, getProductDetailUseCase, toggleFavoriteUseCase)
             
             // Execute pending coroutines
             advanceUntilIdle()
@@ -94,6 +97,52 @@ class ProductDetailViewModelTest {
             assertTrue("State should be Error but was $state", state is UiState.Error)
             val errorState = state as UiState.Error
             assertEquals("Product not found", errorState.message)
+        } finally {
+            Dispatchers.resetMain()
+        }
+    }
+
+    @Test
+    fun `toggleFavorite toggles isFavorite state`() = runTest {
+        val dispatcher = StandardTestDispatcher(testScheduler)
+        Dispatchers.setMain(dispatcher)
+        try {
+            // Given
+            val itemId = "1"
+            val itemDetailDto = ItemDetailDto(
+                id = itemId,
+                title = "Product Detail",
+                price = 150.0,
+                currencyId = "ARS",
+                pictures = emptyList(),
+                condition = "new",
+                availableQuantity = 10,
+                soldQuantity = 5,
+                warranty = "1 year",
+                attributes = emptyList()
+            )
+            fakeRepository.addProductDetail(itemId, itemDetailDto)
+            val savedStateHandle = SavedStateHandle(mapOf("itemId" to itemId))
+            val viewModel = ProductDetailViewModel(savedStateHandle, getProductDetailUseCase, toggleFavoriteUseCase)
+            advanceUntilIdle() // Load initial state
+
+            // When
+            viewModel.toggleFavorite()
+            advanceUntilIdle()
+
+            // Then
+            val state = viewModel.uiState.value
+            assertTrue(state is UiState.Success)
+            assertTrue((state as UiState.Success).data.isFavorite)
+
+            // When toggle again
+            viewModel.toggleFavorite()
+            advanceUntilIdle()
+
+            // Then
+            val state2 = viewModel.uiState.value
+            assertTrue(state2 is UiState.Success)
+            assertTrue(!(state2 as UiState.Success).data.isFavorite)
         } finally {
             Dispatchers.resetMain()
         }
