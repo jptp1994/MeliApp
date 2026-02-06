@@ -2,7 +2,6 @@ package com.example.meliapp
 
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
-import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import com.example.meliapp.domain.model.Attribute
 import com.example.meliapp.domain.model.ProductDetail
