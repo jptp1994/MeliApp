@@ -22,5 +22,6 @@ data class Product(
     val createdAt: String,
     val lastUpdated: String,
     val keywords: String,
-    val hasVariations: Boolean
+    val hasVariations: Boolean,
+    val isFavorite: Boolean = false
 )

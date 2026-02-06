@@ -13,31 +13,10 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.stringResource
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import coil.compose.AsyncImage
-import com.example.meliapp.R
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.outlined.FavoriteBorder
+import androidx.compose.ui.graphics.Color
 import com.example.meliapp.domain.model.ProductDetail
-import com.example.meliapp.presentation.ui.common.UiState
-import com.example.meliapp.presentation.ui.theme.Dimens
-import com.example.meliapp.presentation.viewmodel.ProductDetailViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -61,7 +40,9 @@ fun ProductDetailScreen(
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primary
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    titleContentColor = MaterialTheme.colorScheme.onPrimary,
+                    navigationIconContentColor = MaterialTheme.colorScheme.onPrimary
                 )
             )
         }
@@ -80,7 +61,10 @@ fun ProductDetailScreen(
                 }
                 is UiState.Success -> {
                     val productDetail = (uiState as UiState.Success<ProductDetail>).data
-                    ProductDetailContent(productDetail = productDetail)
+                    ProductDetailContent(
+                        productDetail = productDetail,
+                        onFavoriteClick = { viewModel.toggleFavorite() }
+                    )
                 }
                 is UiState.Error -> {
                     val message = (uiState as UiState.Error).message
@@ -99,7 +83,10 @@ fun ProductDetailScreen(
 }
 
 @Composable
-fun ProductDetailContent(productDetail: ProductDetail) {
+fun ProductDetailContent(
+    productDetail: ProductDetail,
+    onFavoriteClick: () -> Unit
+) {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -138,6 +125,16 @@ fun ProductDetailContent(productDetail: ProductDetail) {
                         modifier = Modifier.fillMaxSize(),
                         contentScale = ContentScale.Fit
                     )
+                    IconButton(
+                        onClick = onFavoriteClick,
+                        modifier = Modifier.align(Alignment.TopEnd)
+                    ) {
+                         Icon(
+                             imageVector = if (productDetail.isFavorite) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
+                             contentDescription = if (productDetail.isFavorite) "Remove from favorites" else "Add to favorites",
+                             tint = if (productDetail.isFavorite) Color.Red else Color.Gray
+                         )
+                    }
                 }
             }
         }

@@ -3,7 +3,7 @@ package com.example.meliapp.domain.mapper
 import com.example.meliapp.data.dto.ItemDto
 import com.example.meliapp.domain.model.Product
 
-fun ItemDto.toDomain(): Product {
+fun ItemDto.toDomain(isFavorite: Boolean = false): Product {
     return Product(
         id = id,
         title = title,
@@ -20,10 +20,11 @@ fun ItemDto.toDomain(): Product {
         createdAt = createdAt,
         lastUpdated = lastUpdated,
         keywords = keywords,
-        hasVariations = hasVariations
+        hasVariations = hasVariations,
+        isFavorite = isFavorite
     )
 }
 
-fun List<ItemDto>.toDomain(): List<Product> {
-    return map { it.toDomain() }
+fun List<ItemDto>.toDomain(favoriteIds: List<String> = emptyList()): List<Product> {
+    return map { it.toDomain(isFavorite = favoriteIds.contains(it.id)) }
 }

@@ -4,7 +4,7 @@ import com.example.meliapp.data.dto.ItemDetailDto
 import com.example.meliapp.domain.model.Attribute
 import com.example.meliapp.domain.model.ProductDetail
 
-fun ItemDetailDto.toDomain(): ProductDetail {
+fun ItemDetailDto.toDomain(isFavorite: Boolean = false): ProductDetail {
     return ProductDetail(
         id = id,
         title = title,
@@ -15,6 +15,7 @@ fun ItemDetailDto.toDomain(): ProductDetail {
         availableQuantity = availableQuantity,
         soldQuantity = soldQuantity,
         warranty = warranty,
-        attributes = attributes.map { Attribute(it.name, it.valueName) }
+        attributes = attributes.map { Attribute(it.name, it.valueName) },
+        isFavorite = isFavorite
     )
 }

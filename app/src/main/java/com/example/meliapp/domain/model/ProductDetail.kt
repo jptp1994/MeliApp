@@ -16,7 +16,8 @@ data class ProductDetail(
     val availableQuantity: Int,
     val soldQuantity: Int,
     val warranty: String?,
-    val attributes: List<Attribute>
+    val attributes: List<Attribute>,
+    val isFavorite: Boolean = false
 )
 
 data class Attribute(
